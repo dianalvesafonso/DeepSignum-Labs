@@ -1,0 +1,451 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DeepSignum Labs</title>
+<meta name="description" content="DeepSignum Labs uses AI to tackle key problems in disease biology and make drug development for neurodegenerative and neuromuscular diseases faster.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+  /* Single deliberate dark look: deep navy from the logo, cyan signal */
+  :root {
+    color-scheme: dark;
+    --bg: #050A1A;
+    --bg-glow: #0C1B3D;
+    --ink: #EEF3FB;
+    --soft: #8C9AB8;
+    --slate: #7F8DAE;
+    --cyan: #2FE0F5;
+    --peri: #8FA3D9;
+    --line: rgba(143, 163, 217, 0.18);
+    --sans: "Outfit", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --fx: 70%;
+    --fy: 50%;
+  }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Fixed stage behind the story */
+  .stage { position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse 55% 60% at var(--fx) var(--fy), var(--bg-glow), var(--bg) 70%); }
+  #field { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .caption {
+    position: absolute;
+    left: calc(var(--fx) - 9rem); width: 18rem; text-align: center;
+    top: calc(var(--fy) + min(26vw, 36vh) * 0.95);
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--slate);
+  }
+  .caption span { position: absolute; left: 0; right: 0; transition: opacity .2s linear; }
+
+  /* Header */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 3;
+    padding-top: env(safe-area-inset-top, 0px);
+    background: linear-gradient(var(--bg) 20%, transparent);
+  }
+  .bar {
+    max-width: 1280px; margin: 0 auto;
+    padding-inline: clamp(20px, 5vw, 56px); padding-block: 20px 28px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .brand svg { width: 44px; height: auto; flex: none; }
+  .wordmark { font-size: 1.2rem; letter-spacing: -0.01em; color: var(--ink); font-weight: 600; white-space: nowrap; }
+  .wordmark span { font-weight: 300; color: var(--slate); }
+  .nav {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none;
+    border: 1px solid var(--line); padding: 9px 14px; border-radius: 999px;
+    transition: border-color .2s, color .2s;
+  }
+  .nav:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  /* Story panels */
+  main { position: relative; z-index: 2; }
+  .panel {
+    box-sizing: border-box;
+    min-height: 100svh;
+    max-width: 1280px; margin: 0 auto;
+    padding-inline: clamp(20px, 5vw, 56px);
+    padding-block: 120px 80px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .copy { max-width: min(36rem, 42vw); display: grid; gap: 22px; }
+  .label {
+    margin: 0;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--cyan);
+  }
+  h1, h2 { margin: 0; font-weight: 300; letter-spacing: -0.03em; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4vw, 3.9rem); line-height: 1.06; }
+  h2 { font-size: clamp(1.9rem, 3.3vw, 3.1rem); line-height: 1.1; }
+  h1 strong, h2 strong { font-weight: 600; }
+  .ai { background: linear-gradient(90deg, var(--cyan), var(--peri)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 600; }
+  .sub { margin: 0; color: var(--soft); max-width: 40ch; font-size: 1.05rem; }
+
+  .hint {
+    margin-top: 56px; display: flex; align-items: center; gap: 12px;
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate);
+  }
+  .hint i { display: block; width: 48px; height: 1px; background: var(--line); position: relative; overflow: hidden; }
+  .hint i::after { content: ""; position: absolute; inset: 0; background: var(--cyan); transform: translateX(-100%); }
+  @media (prefers-reduced-motion: no-preference) {
+    .hint i::after { animation: sweep 2.2s ease-in-out infinite; }
+  }
+  @keyframes sweep { 0% { transform: translateX(-100%); } 60%, 100% { transform: translateX(100%); } }
+
+  /* Contact */
+  .contact-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
+  .email {
+    font-size: clamp(1.3rem, 2.6vw, 1.9rem); font-weight: 400; letter-spacing: -0.01em;
+    color: var(--ink); text-decoration: none; overflow-wrap: anywhere;
+    background: linear-gradient(90deg, var(--cyan), var(--peri)) left bottom / 100% 1px no-repeat;
+    padding-bottom: 4px;
+  }
+  .email:hover { color: var(--cyan); }
+  .copybtn {
+    font: 400 0.72rem/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--soft); background: none; border: 1px solid var(--line); border-radius: 999px;
+    padding: 9px 14px; cursor: pointer; transition: color .2s, border-color .2s;
+  }
+  .copybtn:hover { color: var(--cyan); border-color: var(--cyan); }
+  .legal { margin-top: 72px; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; color: var(--slate); }
+  a:focus-visible, button:focus-visible { outline: 1px solid var(--cyan); outline-offset: 4px; }
+
+  /* Phones: figure sits in the top of the screen, copy below it */
+  @media (max-width: 819px) {
+    :root { --fx: 50%; --fy: 30%; }
+    .caption { display: none; }
+    .copy { max-width: 100%; }
+    .panel { justify-content: flex-end; padding-block: 120px 10svh; }
+    .veil { position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(transparent 44%, rgba(5,10,26,.85) 62%, var(--bg) 80%); }
+    .hint { margin-top: 32px; }
+  }
+</style>
+</head><body>
+
+<div class="stage" aria-hidden="true">
+  <canvas id="field"></canvas>
+  <div class="caption"><span id="capA">Neural tissue</span><span id="capB" style="opacity:0">Artificial neural network</span></div>
+</div>
+<div class="veil" aria-hidden="true"></div>
+
+<header>
+  <div class="bar">
+    <a class="brand" href="#top" aria-label="DeepSignum Labs, back to top">
+      <svg viewBox="95 160 520 410" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#2FE0F5"/>
+            <stop offset=".45" stop-color="#6FA6E0"/>
+            <stop offset="1" stop-color="#8FA3D9"/>
+          </linearGradient>
+        </defs>
+        <g fill="none" stroke="url(#lg)" stroke-width="11" stroke-linecap="round">
+          <path d="M145 363 L283 279"/>
+          <path d="M145 363 L282 452"/>
+          <path d="M283 279 C340 320 380 370 415 395 C440 420 455 440 469 461"/>
+          <path d="M374 209 C395 280 420 350 450 380 C490 395 530 390 567 378"/>
+          <path d="M282 452 C320 410 360 390 410 385 C460 380 520 385 567 378"/>
+          <path d="M469 461 L567 378"/>
+        </g>
+        <g fill="url(#lg)">
+          <circle cx="145" cy="363" r="38" fill="#2FE0F5"/>
+          <circle cx="283" cy="279" r="36"/>
+          <circle cx="282" cy="452" r="38"/>
+          <circle cx="374" cy="209" r="41"/>
+          <circle cx="506" cy="313" r="35"/>
+          <circle cx="567" cy="378" r="30"/>
+          <circle cx="469" cy="461" r="25"/>
+          <circle cx="361" cy="516" r="38"/>
+        </g>
+      </svg>
+      <span class="wordmark">DeepSignum <span>Labs</span></span>
+    </a>
+    <a class="nav" href="#contact">Contact</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="panel" id="s1">
+    <div class="copy">
+      <p class="label">Neurodegenerative &amp; neuromuscular disease</p>
+      <h1>Faster drug development for the diseases that <strong>take away movement and memory.</strong></h1>
+      <div class="hint"><i></i>Scroll</div>
+    </div>
+  </section>
+
+  <section class="panel" id="s2">
+    <div class="copy">
+      <p class="label">Disease biology</p>
+      <h2>We are tackling the <strong>key biology problems</strong> that slow drug development down.</h2>
+      <p class="sub">Disease changes begin years before symptoms appear. Measuring them is where faster trials start.</p>
+    </div>
+  </section>
+
+  <section class="panel" id="s3">
+    <div class="copy">
+      <p class="label">Artificial intelligence</p>
+      <h2>Using <span class="ai">AI</span> to make disease biology <strong>clinically measurable.</strong></h2>
+    </div>
+  </section>
+
+  <section class="panel" id="contact">
+    <div class="copy">
+      <p class="label">Contact</p>
+      <h2>Get in touch.</h2>
+      <div class="contact-row">
+        <a class="email" id="email" href="mailto:info@deepsignumlabs.bio">info@deepsignumlabs.bio</a>
+        <button class="copybtn" id="copy" type="button">Copy</button>
+      </div>
+      <p class="legal">© 2026 DeepSignum Labs</p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  /* ---------- copy email ---------- */
+  var btn = document.getElementById('copy'), email = document.getElementById('email');
+  function reset() { setTimeout(function () { btn.textContent = 'Copy'; }, 1800); }
+  btn.addEventListener('click', function () {
+    function fallback() {
+      var r = document.createRange(); r.selectNodeContents(email);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = 'Selected'; reset();
+    }
+    try { navigator.clipboard.writeText(email.textContent).then(function () { btn.textContent = 'Copied'; reset(); }, fallback); }
+    catch (e) { fallback(); }
+  });
+
+  /* ---------- brain → neural network field ---------- */
+  var cv = document.getElementById('field'), ctx = cv.getContext('2d');
+  var capA = document.getElementById('capA'), capB = document.getElementById('capB');
+  var s1 = document.getElementById('s1'), s3 = document.getElementById('s3');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var seed = 7;
+  function rnd() { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+  function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function inE(x, y, cx, cy, rx, ry) { var dx = (x - cx) / rx, dy = (y - cy) / ry; return dx * dx + dy * dy <= 1; }
+  function inCere(x, y) { return inE(x, y, 0, -0.12, 0.95, 0.62) || inE(x, y, -0.1, 0.26, 0.66, 0.3); }
+  function inCbl(x, y) { return inE(x, y, 0.56, 0.42, 0.3, 0.19) && !inCere(x, y); }
+
+  /* Build the brain as points: outline, fissures, cerebellum folia, stem, interior fill */
+  var P = []; // {bx,by,kind}
+  function add(x, y, k) { P.push({ bx: x, by: y, k: k }); }
+  var i, j, n;
+  n = 84;
+  for (i = 0; i < n; i++) {
+    var th = i / n * Math.PI * 2, r = 0;
+    for (var rr = 0; rr < 1.4; rr += 0.004) { if (inCere(Math.cos(th) * rr, 0.02 + Math.sin(th) * rr)) r = rr; }
+    r *= 1 + 0.022 * Math.sin(th * 23);
+    add(Math.cos(th) * r, 0.02 + Math.sin(th) * r, 1);
+  }
+  for (i = 0; i < 34; i++) { // cerebellum rim
+    var a = i / 34 * Math.PI * 2, x = 0.56 + Math.cos(a) * 0.3, y = 0.42 + Math.sin(a) * 0.19;
+    if (!inCere(x, y)) add(x, y, 1);
+  }
+  for (j = 0; j < 3; j++) for (i = 0; i < 12; i++) { // folia
+    var fx = 0.3 + i * 0.05, fy = 0.44 + j * 0.055 + Math.sin(i * 0.9) * 0.01;
+    if (inCbl(fx, fy)) add(fx, fy, 0);
+  }
+  for (i = 0; i < 7; i++) { var sy = 0.52 + i * 0.055, sx = 0.3 - (sy - 0.35) * 0.12; add(sx - 0.07, sy, 1); add(sx + 0.07, sy, 1); }
+  for (i = 0; i <= 12; i++) { var u = i / 12; add(0.08 - u * 0.2 + Math.sin(u * 7) * 0.02, -0.7 + u * 0.72, 0); } // central sulcus
+  for (i = 0; i <= 13; i++) { var v = i / 13; add(-0.5 + v * 0.85, 0.14 - v * 0.2 + Math.sin(v * 5) * 0.025, 0); } // lateral fissure
+  for (j = 0; j < 4; j++) for (i = 0; i <= 9; i++) { // gyri arcs
+    var w = i / 9, gx = -0.75 + j * 0.42 + w * 0.3, gy = -0.5 + Math.sin(w * Math.PI) * -0.08 + j * 0.02 + (j % 2) * 0.18;
+    if (inCere(gx, gy)) add(gx, gy, 0);
+  }
+  var tries = 0;
+  while (tries < 3000 && P.length < 250) { // interior fill with spacing
+    var px = rnd() * 2 - 1, py = rnd() * 1.4 - 0.75; tries++;
+    if (!inCere(px, py)) continue;
+    var ok = true;
+    for (var q = 0; q < P.length; q++) { var ddx = P[q].bx - px, ddy = P[q].by - py; if (ddx * ddx + ddy * ddy < 0.075 * 0.075) { ok = false; break; } }
+    if (ok) add(px, py, 0);
+  }
+  var N = P.length;
+
+  /* Brain mesh edges + adjacency for travelling signals */
+  var BE = [], adj = [];
+  for (i = 0; i < N; i++) adj.push([]);
+  for (i = 0; i < N; i++) {
+    var near = [];
+    for (j = 0; j < N; j++) if (j !== i) {
+      var dx = P[i].bx - P[j].bx, dy = P[i].by - P[j].by, d = dx * dx + dy * dy;
+      if (d < 0.14 * 0.14) near.push([d, j]);
+    }
+    near.sort(function (m, o) { return m[0] - o[0]; });
+    for (var k = 0; k < Math.min(4, near.length); k++) {
+      var jj = near[k][1];
+      if (jj > i || adj[jj].indexOf(i) < 0) { if (adj[i].indexOf(jj) < 0) { BE.push([i, jj]); adj[i].push(jj); adj[jj].push(i); } }
+    }
+  }
+
+  /* Neural network target */
+  var layers = [4, 6, 7, 6, 3], NN = [], NE = [], L = [];
+  for (i = 0; i < layers.length; i++) {
+    var row = [];
+    for (j = 0; j < layers[i]; j++) { NN.push({ x: -0.95 + i * 0.475, y: (j - (layers[i] - 1) / 2) * 0.22 }); row.push(NN.length - 1); }
+    L.push(row);
+  }
+  for (i = 0; i < L.length - 1; i++) for (j = 0; j < L[i].length; j++) for (k = 0; k < L[i + 1].length; k++) NE.push([L[i][j], L[i + 1][k]]);
+
+  /* Assign each brain point a destination: a node, or a spot flowing along a connection */
+  var order = P.map(function (p, idx) { return idx; }).sort(function (m, o) { return P[m].bx - P[o].bx || P[m].by - P[o].by; });
+  var M = NN.length, nodeIdx = [];
+  var chosen = {};
+  for (i = 0; i < M; i++) { var pick = order[Math.round(i * (N - 1) / (M - 1))]; while (chosen[pick]) pick = order[(order.indexOf(pick) + 1) % N]; chosen[pick] = 1; nodeIdx.push(pick); }
+  var nodesSorted = NN.map(function (nd, idx) { return idx; }).sort(function (m, o) { return NN[m].x - NN[o].x || NN[m].y - NN[o].y; });
+  var nodeParticle = new Array(M);
+  nodeIdx.forEach(function (pi, r) { P[pi].node = nodesSorted[r]; nodeParticle[nodesSorted[r]] = pi; });
+  var edgesSorted = NE.map(function (e, idx) { return idx; }).sort(function (m, o) {
+    return (NN[NE[m][0]].x + NN[NE[m][1]].x) - (NN[NE[o][0]].x + NN[NE[o][1]].x);
+  });
+  var surplus = order.filter(function (pi) { return !chosen[pi]; });
+  surplus.forEach(function (pi, r) { P[pi].edge = edgesSorted[Math.floor(r * NE.length / surplus.length)]; P[pi].u0 = rnd(); P[pi].sp = 0.6 + rnd() * 0.8; });
+
+  function mix(a, b, t) { return [Math.round(a[0] + (b[0] - a[0]) * t), Math.round(a[1] + (b[1] - a[1]) * t), Math.round(a[2] + (b[2] - a[2]) * t)]; }
+  var C1 = [47, 224, 245], C2 = [143, 163, 217];
+  P.forEach(function (p) {
+    var c = mix(C1, C2, clamp((p.bx + 1) / 2, 0, 1));
+    p.col = 'rgb(' + c.join(',') + ')';
+    p.delay = 0.35 * clamp((p.bx + 1) / 2, 0, 1);
+    p.swirl = (rnd() - 0.5) * 0.5;
+    p.ph = rnd() * 6.28; p.f = 0.6 + rnd() * 0.8;
+    p.x = 0; p.y = 0; p.t = 0;
+  });
+
+  /* Glow sprite */
+  var glow = document.createElement('canvas'); glow.width = glow.height = 64;
+  var g = glow.getContext('2d'), rg = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  rg.addColorStop(0, 'rgba(120,240,255,1)'); rg.addColorStop(0.25, 'rgba(47,224,245,.45)'); rg.addColorStop(1, 'rgba(47,224,245,0)');
+  g.fillStyle = rg; g.fillRect(0, 0, 64, 64);
+
+  /* Travelling signals across the brain mesh */
+  var sparks = [];
+  function spawn() { var e = BE[Math.floor(rnd() * BE.length)]; return { a: e[0], b: e[1], u: 0, hops: 0, max: 5 + Math.floor(rnd() * 6), s: 0.025 + rnd() * 0.02 }; }
+  for (i = 0; i < 16; i++) { var sp = spawn(); sp.u = rnd(); sparks.push(sp); }
+
+  var W, H, cx, cy, S, T = 0, mx = 0, my = 0, pmx = 0, pmy = 0;
+  function resize() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (W < 820) { cx = W * 0.5; cy = H * 0.3; S = Math.min(W * 0.4, H * 0.22); }
+    else { cx = W * 0.7; cy = H * 0.5; S = Math.min(W * 0.26, H * 0.36); }
+  }
+  window.addEventListener('resize', resize);
+  window.addEventListener('pointermove', function (e) { mx = e.clientX / W - 0.5; my = e.clientY / H - 0.5; }, { passive: true });
+
+  function progress() {
+    var a = s1.offsetHeight * 0.3, b = s3.offsetTop - H * 0.2;
+    return clamp((window.scrollY - a) / Math.max(1, b - a), 0, 1);
+  }
+
+  function frame(ms) {
+    var time = reduce ? 0 : ms / 1000;
+    var target = progress();
+    T += reduce ? (target - T) : (target - T) * 0.09;
+    pmx += (mx - pmx) * 0.05; pmy += (my - pmy) * 0.05;
+    var ox = cx + (reduce ? 0 : pmx * 18), oy = cy + (reduce ? 0 : pmy * 12);
+    var sway = reduce ? 0 : Math.sin(time * 0.3) * 0.02;
+
+    ctx.clearRect(0, 0, W, H);
+
+    /* positions */
+    for (var i = 0; i < N; i++) {
+      var p = P[i];
+      var bx = p.bx + (reduce ? 0 : Math.sin(time * p.f + p.ph) * 0.006);
+      var by = p.by + (reduce ? 0 : Math.cos(time * p.f * 0.8 + p.ph) * 0.006);
+      var tx, ty;
+      if (p.node !== undefined) { tx = NN[p.node].x; ty = NN[p.node].y + (reduce ? 0 : Math.sin(time * 0.8 + p.ph) * 0.01); }
+      else {
+        var e = NE[p.edge], A = NN[e[0]], B = NN[e[1]];
+        var u = reduce ? p.u0 : (p.u0 + time * 0.08 * p.sp) % 1;
+        tx = A.x + (B.x - A.x) * u; ty = A.y + (B.y - A.y) * u;
+      }
+      var ti = ease(clamp((T - p.delay) / 0.65, 0, 1));
+      p.t = ti;
+      var x = bx + (tx - bx) * ti, y = by + (ty - by) * ti + Math.sin(Math.PI * ti) * p.swirl;
+      var cs = Math.cos(sway), sn = Math.sin(sway);
+      var rx = x * cs - (y - 0.05) * sn, ry = x * sn + (y - 0.05) * cs;
+      p.x = ox + rx * S; p.y = oy + ry * S;
+    }
+
+    /* brain mesh */
+    var bA = 0.2 * (1 - T);
+    if (bA > 0.005) {
+      ctx.beginPath();
+      for (var k = 0; k < BE.length; k++) { var a = P[BE[k][0]], b = P[BE[k][1]]; ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); }
+      ctx.strokeStyle = 'rgba(120,190,240,' + bA + ')'; ctx.lineWidth = 0.8; ctx.stroke();
+    }
+    /* network connections */
+    var nA = 0.16 * T;
+    if (nA > 0.005) {
+      ctx.beginPath();
+      for (k = 0; k < NE.length; k++) { var na = P[nodeParticle[NE[k][0]]], nb = P[nodeParticle[NE[k][1]]]; ctx.moveTo(na.x, na.y); ctx.lineTo(nb.x, nb.y); }
+      ctx.strokeStyle = 'rgba(143,180,230,' + nA + ')'; ctx.lineWidth = 0.8; ctx.stroke();
+    }
+
+    /* particles */
+    for (i = 0; i < N; i++) {
+      p = P[i];
+      var r;
+      if (p.node !== undefined) r = 1.6 + (p.k ? 0.4 : 0) + p.t * 3.4;
+      else r = (1.4 + (p.k ? 0.5 : 0)) * (1 - p.t) + 1.3 * p.t;
+      ctx.globalAlpha = p.node !== undefined ? 0.95 : 0.8;
+      ctx.fillStyle = p.col;
+      ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 6.2832); ctx.fill();
+      if (p.node !== undefined && p.t > 0.02) {
+        ctx.globalAlpha = 0.35 * p.t; ctx.strokeStyle = p.col; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(p.x, p.y, r + 5 + (reduce ? 0 : Math.sin(time * 1.6 + p.ph) * 1.5), 0, 6.2832); ctx.stroke();
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    /* glows: signals in the brain, flow in the network */
+    ctx.globalCompositeOperation = 'lighter';
+    if (!reduce && T < 0.98) {
+      for (k = 0; k < sparks.length; k++) {
+        var s = sparks[k]; s.u += s.s;
+        if (s.u >= 1) {
+          s.hops++;
+          var nbrs = adj[s.b];
+          if (s.hops > s.max || !nbrs.length) sparks[k] = s = spawn();
+          else { var nx = nbrs[Math.floor(rnd() * nbrs.length)]; s.a = s.b; s.b = nx; s.u = 0; }
+        }
+        var pa = P[s.a], pb = P[s.b], gx = pa.x + (pb.x - pa.x) * s.u, gy = pa.y + (pb.y - pa.y) * s.u;
+        ctx.globalAlpha = 0.9 * (1 - T);
+        ctx.drawImage(glow, gx - 14, gy - 14, 28, 28);
+      }
+    }
+    if (T > 0.02) {
+      ctx.globalAlpha = 0.5 * T;
+      for (i = 0; i < N; i++) { p = P[i]; if (p.node === undefined) ctx.drawImage(glow, p.x - 7, p.y - 7, 14, 14); }
+    }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+
+    capA.style.opacity = String(clamp(1 - T * 2, 0, 1));
+    capB.style.opacity = String(clamp(T * 2 - 1, 0, 1));
+
+    window.requestAnimationFrame(frame);
+  }
+  resize();
+  window.requestAnimationFrame(frame);
+})();
+</script>
+</body></html>
